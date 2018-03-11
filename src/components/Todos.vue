@@ -2,35 +2,22 @@
   <section class="todoapp">
     <header class="header">
       <h1>Todos</h1>
-      <input type="text"
-             class="new-todo"
-             autocomplete="off"
-             placeholder="What needs to be done?"
-             v-model="newTodo"
-             @keyup.enter="addTodo"
-             autofocus />
+      <TodoInput
+        class="new-todo"
+        placeholder="What needs to be done?"
+        @addtodo="addTodo"
+        autofocus/>
     </header>
-    <section class="main" v-show="todos.length" v-cloak>
-      <input type="checkbox" class="toggle-all" v-model="allDone">
-      <ul class="todo-list">
-        <li v-bind:key="index" class="todo" v-for="(todo, index) in filteredTodos" :class="{completed: todo.completed, editing: todo == editing}">
-           <div class="view">
-             <input type="checkbox" v-model="todo.completed" class="toggle">
-             <label @dblclick="editTodo(todo)">{{todo.title}}</label>
-             <button type="button" class="destroy" @click.prevent="deleteTodo(todo)"></button>
-           </div>
-          <input type="text" class="edit" v-model="todo.title" @keyup.enter="doneEdit" @blur="doneEdit" v-todoFocus="todo === editing">
-        </li>
-      </ul>
+    <section class="main" v-show="todos.exist" v-cloak>
+      <input type="checkbox" class="toggle-all" v-model="todos.alldone">
+      <TodoList :todos="todos"></TodoList>
     </section>
-    <footer class="footer" v-show="todos.length > 0">
+    <footer class="footer" v-show="todos.exist">
       <span class="todo-count">
         <strong>{{remaining}}</strong> {{remaining | pluralize}} left
       </span>
       <ul class="filters">
-        <li><a href="#/all" :class="{selected: filter === 'all'}" @click="filter = 'all'">All</a></li>
-        <li><a href="#/active" :class="{selected: filter === 'active'}" @click="filter = 'active'">Active</a></li>
-        <li><a href="#/completed" :class="{selected: filter === 'completed'}" @click="filter = 'completed'">Completed</a></li>
+        <li :key="key" v-for="(func, key) in filters"><a :href="`#/${key}`" :class="{selected: todos.filter === func}" @click="todos.filter = func">{{key}}</a></li>
       </ul>
       <button class="clear-completed" v-show="completed" @click.prevent="deleteCompleted">Clear Completed</button>
     </footer>
@@ -38,15 +25,19 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import TodoInput from './TodoInput'
+import TodoList from './TodoList'
+import Todos, {filters} from '../Todos'
 
 export default {
+  components: {
+    TodoInput,
+    TodoList
+  },
   data () {
     return {
-      todos: [],
-      newTodo: '',
-      filter: 'all',
-      editing: null
+      todos: new Todos(),
+      filters: filters
     }
   },
   filters: {
@@ -54,60 +45,20 @@ export default {
       return n === 1 ? 'item' : 'items'
     }
   },
-  directives: {
-    todoFocus (el, value) {
-      if (value) {
-        Vue.nextTick(() => {
-          el.focus()
-        })
-      }
-    }
-  },
   methods: {
-    addTodo () {
-      this.todos.push({
-        completed: false,
-        title: this.newTodo
-      })
-      this.newTodo = ''
-    },
-    deleteTodo (todo) {
-      this.todos = this.todos.filter(t => t !== todo)
+    addTodo (todo) {
+      this.todos.addTodo(todo)
     },
     deleteCompleted () {
-      this.todos = this.todos.filter(t => !t.completed)
-    },
-    editTodo (todo) {
-      this.editing = todo
-    },
-    doneEdit () {
-      this.editing = null
+      this.todos.deleteCompleted()
     }
   },
   computed: {
     remaining () {
-      return this.todos.filter(t => !t.completed).length
+      return this.todos.filterActive().length
     },
     completed () {
-      return this.todos.filter(t => t.completed).length
-    },
-    filteredTodos () {
-      if (this.filter === 'active') {
-        return this.todos.filter(t => !t.completed)
-      } else if (this.filter === 'completed') {
-        return this.todos.filter(t => t.completed)
-      }
-      return this.todos
-    },
-    allDone: {
-      get () {
-        return this.remaining === 0
-      },
-      set (value) {
-        return this.todos.forEach(t => {
-          t.completed = value
-        })
-      }
+      return this.todos.filterCompleted().length
     }
   }
 }
