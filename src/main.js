@@ -10,19 +10,19 @@ window.VueApp = new Vue({
   render: h => h(App)
 })
 
-const router = new Director.Router();
+const router = new Director.Router()
 
-['all', 'active', 'completed'].forEach(visibility => {
-  router.on(visibility, () => {
-    window.VueApp.filter = visibility
-  })
-})
+// ['all', 'active', 'completed'].forEach(visibility => {
+//   router.on(visibility, () => {
+//     window.VueApp.filter = visibility
+//   })
+// })
 
-router.configure({
-  notfound () {
-    window.location.hash = ''
-    window.VueApp.filter = 'all'
-  }
-})
+// router.configure({
+//   notfound () {
+//     window.location.hash = ''
+//     window.VueApp.filter = 'all'
+//   }
+// })
 
 router.init()
