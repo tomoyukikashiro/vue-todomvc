@@ -55,10 +55,10 @@ export default {
   },
   computed: {
     remaining () {
-      return this.todos.filterActive().length
+      return this.todos.filteredActive.length
     },
     completed () {
-      return this.todos.filterCompleted().length
+      return this.todos.filteredCompleted.length
     }
   }
 }

@@ -2,7 +2,7 @@
   <ul class="todo-list">
     <li is="todoItem"
         :key="index"
-        v-for="(todo, index) in todos.filtered()"
+        v-for="(todo, index) in todos.filtered"
         @deletetodo="deleteTodo"
         :todo="todo"></li>
   </ul>
@@ -16,7 +16,10 @@ export default {
     TodoItem
   },
   props: {
-    todos: new Todos()
+    todos: {
+      type: Todos,
+      required: true
+    }
   },
   methods: {
     deleteTodo (todo) {
