@@ -19,20 +19,20 @@ export default class TodoList {
   deleteTodo (todo) {
     this.todos = this.todos.filter(t => t !== todo)
   }
-  filtered () {
+  get filtered () {
     return this.todos.filter(this.filter)
   }
-  filterActive () {
+  get filteredActive () {
     return this.todos.filter(filters.active)
   }
-  filterCompleted () {
+  get filteredCompleted () {
     return this.todos.filter(filters.completed)
   }
   get exist () {
     return this.todos.length > 0
   }
   get allDone () {
-    return this.filterActive().length === 0
+    return this.filteredActive.length === 0
   }
   set allDone (value) {
     this.todos.forEach(todo => {

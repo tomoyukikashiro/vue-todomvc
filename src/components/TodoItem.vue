@@ -11,9 +11,13 @@
 
 <script>
 import Vue from 'vue'
+import Todo from '../Todo'
 export default {
   props: {
-    todo: {}
+    todo: {
+      type: Todo,
+      required: true
+    }
   },
   data () {
     return {
