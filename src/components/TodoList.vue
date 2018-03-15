@@ -4,6 +4,7 @@
         :key="index"
         v-for="(todo, index) in todos.filtered"
         @deletetodo="deleteTodo"
+        @updatetodo="updateTodo"
         :todo="todo"></li>
   </ul>
 </template>
@@ -24,6 +25,9 @@ export default {
   methods: {
     deleteTodo (todo) {
       this.todos.deleteTodo(todo)
+    },
+    updateTodo (todo) {
+      this.todos.updateTodo(todo)
     }
   }
 }

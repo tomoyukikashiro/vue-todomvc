@@ -5,6 +5,14 @@ export const filters = {
   completed: (todo) => todo.completed
 }
 
+const clone = (org) => {
+  return Object.assign(Object.create(Object.getPrototypeOf(org)), org)
+}
+
+const cloneAll = (orgs) => {
+  return orgs.map(todo => clone(todo))
+}
+
 export default class TodoList {
   constructor (todos = [], filter = filters.all) {
     this.todos = todos
@@ -13,20 +21,23 @@ export default class TodoList {
   addTodo (todo) {
     this.todos.push(todo)
   }
+  updateTodo (newTodo) {
+    this.todos = this.todos.map(todo => todo.id === newTodo.id ? newTodo : todo)
+  }
   deleteCompleted () {
     this.todos = this.todos.filter(filters.active)
   }
   deleteTodo (todo) {
-    this.todos = this.todos.filter(t => t !== todo)
+    this.todos = this.todos.filter(t => t.id !== todo.id)
   }
   get filtered () {
-    return this.todos.filter(this.filter)
+    return cloneAll(this.todos.filter(this.filter))
   }
   get filteredActive () {
-    return this.todos.filter(filters.active)
+    return cloneAll(this.todos.filter(filters.active))
   }
   get filteredCompleted () {
-    return this.todos.filter(filters.completed)
+    return cloneAll(this.todos.filter(filters.completed))
   }
   get exist () {
     return this.todos.length > 0

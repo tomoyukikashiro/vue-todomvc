@@ -9,7 +9,7 @@
         autofocus/>
     </header>
     <section class="main" v-show="todos.exist" v-cloak>
-      <input type="checkbox" class="toggle-all" v-model="todos.alldone">
+      <input type="checkbox" class="toggle-all" v-model="todos.allDone">
       <TodoList :todos="todos"></TodoList>
     </section>
     <footer class="footer" v-show="todos.exist">
