@@ -1,0 +1,9 @@
+langage: node_js
+cache: node_modules
+install:
+  - nvm install node
+  - nvm alias default node
+  - npm install
+script:
+  - npm run unit
+
