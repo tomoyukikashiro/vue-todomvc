@@ -19,7 +19,7 @@ export default class TodoList {
     this.filter = filter
   }
   addTodo (todo) {
-    this.todos.push(todo)
+    this.todos = [...this.todos, todo]
   }
   updateTodo (newTodo) {
     this.todos = this.todos.map(todo => todo.id === newTodo.id ? newTodo : todo)
