@@ -3,26 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 
-import Director from 'director/build/director'
-
 window.VueApp = new Vue({
   el: '#app',
   render: h => h(App)
 })
-
-const router = new Director.Router()
-
-// ['all', 'active', 'completed'].forEach(visibility => {
-//   router.on(visibility, () => {
-//     window.VueApp.filter = visibility
-//   })
-// })
-
-// router.configure({
-//   notfound () {
-//     window.location.hash = ''
-//     window.VueApp.filter = 'all'
-//   }
-// })
-
-router.init()
