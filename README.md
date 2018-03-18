@@ -1,6 +1,12 @@
+[![Build Status](https://travis-ci.org/tomoyukikashiro/vue-todomvc.svg?branch=master)](https://travis-ci.org/tomoyukikashiro/vue-todomvc)
+
 # todomvc-vue
 
-> A Vue.js project
+This project is inspired by [addyosmani/vue-cli-todomvc](https://github.com/addyosmani/vue-cli-todomvc).
+Additionally....
+
+- Separate into more components
+- Add unit test by using jest
 
 ## Build Setup
 
@@ -19,9 +25,6 @@ npm run build --report
 
 # run unit tests
 npm run unit
-
-# run e2e tests
-npm run e2e
 
 # run all tests
 npm test
