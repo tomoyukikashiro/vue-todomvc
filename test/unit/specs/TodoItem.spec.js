@@ -13,7 +13,7 @@ describe('TodoItem', function () {
   describe('should represent Todo based on Todo props', function () {
     describe('wrapper class', function () {
       describe('when todo is not completed', function () {
-        it('should not have "completed class"' , function () {
+        it('should not have "completed class"', function () {
           const cmp = new Constructor({propsData: {todo}}).$mount()
           expect(Array.from(cmp.$el.classList)).not.toEqual(expect.arrayContaining(['completed']))
         })
