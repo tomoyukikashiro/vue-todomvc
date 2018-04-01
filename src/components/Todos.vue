@@ -12,53 +12,30 @@
       <input type="checkbox" class="toggle-all" v-model="todos.allDone">
       <TodoList :todos="todos"></TodoList>
     </section>
-    <footer class="footer" v-show="todos.exist">
-      <span class="todo-count">
-        <strong>{{remaining}}</strong> {{remaining | pluralize}} left
-      </span>
-      <ul class="filters">
-        <li :key="key" v-for="(func, key) in filters"><a :href="`#/${key}`" :class="{selected: todos.filter === func}" @click="todos.filter = func">{{key}}</a></li>
-      </ul>
-      <button class="clear-completed" v-show="completed" @click.prevent="deleteCompleted">Clear Completed</button>
-    </footer>
+    <footer is="TodoFooter" v-show="todos.exist" :todos="todos"></footer>
   </section>
 </template>
 
 <script>
 import TodoInput from './TodoInput'
 import TodoList from './TodoList'
-import Todos, {filters} from '../Todos'
+import TodoFooter from './TodoFooter'
+import Todos from '../Todos'
 
 export default {
   components: {
     TodoInput,
-    TodoList
+    TodoList,
+    TodoFooter
   },
   data () {
     return {
-      todos: new Todos(),
-      filters: filters
-    }
-  },
-  filters: {
-    pluralize (n) {
-      return n === 1 ? 'item' : 'items'
+      todos: new Todos()
     }
   },
   methods: {
     addTodo (todo) {
       this.todos.addTodo(todo)
-    },
-    deleteCompleted () {
-      this.todos.deleteCompleted()
-    }
-  },
-  computed: {
-    remaining () {
-      return this.todos.filteredActive.length
-    },
-    completed () {
-      return this.todos.filteredCompleted.length
     }
   }
 }
